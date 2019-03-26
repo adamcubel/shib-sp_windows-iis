@@ -1,11 +1,11 @@
 FROM microsoft/iis
 
-ENV SP_VERSION=3.0.4.0
+ENV SP_VERSION=3.0.4.1
 RUN powershell [Environment]::SetEnvironmentVariable('SP_VERSION','%SP_VERSION%', [System.EnvironmentVariableTarget]::Machine )
 
 #install shibb sp
 RUN powershell (new-object System.Net.WebClient).Downloadfile('https://shibboleth.net/downloads/service-provider/latest/win64/shibboleth-sp-%SP_VERSION%-win64.msi', 'C:\shibboleth-sp-%SP_VERSION%-win64.msi')
-RUN powershell If ((Get-FileHash C:\shibboleth-sp-%SP_VERSION%-win64.msi -Algorithm SHA1).Hash.ToLower() -eq '76e8899b6aa353290c1483f62ff3bf6753919c2c') { ` \
+RUN powershell If ((Get-FileHash C:\shibboleth-sp-%SP_VERSION%-win64.msi -Algorithm SHA1).Hash.ToLower() -eq '684460461866e3b83c37fbea205665d23f61f190') { ` \
 		start-process -filepath c:\windows\system32\msiexec.exe -passthru -wait -argumentlist '/i','C:\shibboleth-sp-%SP_VERSION%-win64.msi','/qn' ` \
 		       } Else { throw 'bad hash comparison on SP download' }
 RUN del C:\shibboleth-sp-%SP_VERSION%-win64.msi

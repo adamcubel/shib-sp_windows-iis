@@ -1,4 +1,4 @@
-FROM microsoft/iis
+FROM mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2016
 
 ENV SP_VERSION=3.0.4.1
 RUN powershell [Environment]::SetEnvironmentVariable('SP_VERSION','%SP_VERSION%', [System.EnvironmentVariableTarget]::Machine )

@@ -18,7 +18,6 @@ COPY container_files/attribute-map.xml c:/opt/shibboleth-sp/etc/shibboleth/
 #add ASP.NET and IIS svc monitor
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]	
 RUN Add-WindowsFeature Web-WebServer; ` \
-    Add-WindowsFeature Web-Net-Ext; ` \
     Add-WindowsFeature Web-Net-Ext45; ` \
     Add-WindowsFeature Web-Asp-Net45; ` \
     Remove-Item -Recurse C:\inetpub\wwwroot\*; ` \

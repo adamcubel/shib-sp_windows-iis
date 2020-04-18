@@ -11,6 +11,8 @@ RUN powershell If ((Get-FileHash C:\shibboleth-sp-%SP_VERSION%-win64.msi -Algori
 		start-process -filepath c:\windows\system32\msiexec.exe -passthru -wait -argumentlist '/i','C:\shibboleth-sp-%SP_VERSION%-win64.msi','/qn' ` \
 		       } Else { throw 'bad hash comparison on SP download' }
 RUN del C:\shibboleth-sp-%SP_VERSION%-win64.msi
+RUN powershell "Set-Service -Name wuauserv -StartupType Manual; Install-WindowsFeature -Name NET-Framework-Features -Verbose"
+
 RUN C:\Windows\System32\inetsrv\appcmd install module /name:ShibNative32 /image:"c:\opt\shibboleth-sp\lib\shibboleth\iis7_shib.dll" /precondition:bitness32
 RUN C:\Windows\System32\inetsrv\appcmd install module /name:ShibNative /image:"c:\opt\shibboleth-sp\lib64\shibboleth\iis7_shib.dll" /precondition:bitness64
 COPY container_files/attribute-map.xml c:/opt/shibboleth-sp/etc/shibboleth/

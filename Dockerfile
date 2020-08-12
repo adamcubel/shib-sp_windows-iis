@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2016
+FROM mcr.microsoft.com/windows/servercore/iis:windowsservercore-ltsc2019
 
 ENV SP_VERSION=3.1.0.1
 ARG TIERVERSION=20200417
@@ -16,6 +16,7 @@ RUN powershell "Set-Service -Name wuauserv -StartupType Manual; Install-WindowsF
 RUN C:\Windows\System32\inetsrv\appcmd install module /name:ShibNative32 /image:"c:\opt\shibboleth-sp\lib\shibboleth\iis7_shib.dll" /precondition:bitness32
 RUN C:\Windows\System32\inetsrv\appcmd install module /name:ShibNative /image:"c:\opt\shibboleth-sp\lib64\shibboleth\iis7_shib.dll" /precondition:bitness64
 COPY container_files/attribute-map.xml c:/opt/shibboleth-sp/etc/shibboleth/
+COPY container_files/shibboleth2.xml c:/opt/shibboleth-sp/etc/shibboleth/
 
 #add ASP.NET and IIS svc monitor
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]	
